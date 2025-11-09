@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-3">
+  <h3 class="mb-0">Shop Nokshi</h3>
+  <form method="get" class="d-flex">
+    <select name="category" class="form-select form-select-sm" onchange="this.form.submit()">
+      <option value="">All categories</option>
+      {% for cat in categories %}
+        <option value="{{ cat }}" {% if cat == selected_category %}selected{% endif %}>{{ cat }}</option>
+      {% endfor %}
+    </select>
+  </form>
+</div>
+
+<div class="row">
+  {% for p in products %}
+    <div class="col-6 col-md-3 mb-4">
+      <div class="card h-100 border-0 shadow-sm">
+        <img src="{{ p.image_url or url_for('static', filename='images/placeholder.jpg') }}"
+             class="card-img-top" alt="{{ p.name }}">
+        <div class="card-body">
+          <h6 class="card-title">{{ p.name }}</h6>
+          <p class="fw-bold mb-1">£{{ '%.2f'|format(p.price) }}</p>
+          <a href="{{ url_for('product_detail', slug=p.slug) }}" class="stretched-link small">View details</a>
+        </div>
+      </div>
+    </div>
+  {% else %}
+    <p>No products found.</p>
+  {% endfor %}
+</div>
+{% endblock %}

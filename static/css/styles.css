@@ -1,0 +1,18 @@
+body {
+  background-color: #faf7f4;
+}
+
+.hero-placeholder {
+  background: #eee;
+  padding: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #666;
+  font-size: 0.9rem;
+}
+
+.card-img-top {
+  height: 220px;
+  object-fit: cover;
+}

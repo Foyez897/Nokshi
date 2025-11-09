@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% block content %}
+<h3>Your Cart</h3>
+{% if not cart %}
+  <p>Your cart is empty.</p>
+  <a href="{{ url_for('products_view') }}" class="btn btn-outline-dark">Shop now</a>
+{% else %}
+<form method="post" action="{{ url_for('update_cart') }}">
+  <table class="table align-middle">
+    <thead>
+      <tr>
+        <th>Item</th>
+        <th>Size</th>
+        <th>Qty</th>
+        <th>Price</th>
+        <th>Subtotal</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for key, item in cart.items() %}
+      <tr>
+        <td>{{ item.name }}</td>
+        <td>{{ item.size or '-' }}</td>
+        <td style="max-width:80px;">
+          <input type="number" name="qty_{{ key }}" value="{{ item.qty }}" min="0"
+                 class="form-control form-control-sm">
+        </td>
+        <td>£{{ '%.2f'|format(item.price) }}</td>
+        <td>£{{ '%.2f'|format(item.price * item.qty) }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  <div class="d-flex justify-content-between">
+    <a href="{{ url_for('products_view') }}" class="btn btn-link">Continue shopping</a>
+    <div>
+      <strong>Total: £{{ '%.2f'|format(total) }}</strong>
+      <button type="submit" class="btn btn-outline-secondary ms-3">Update Cart</button>
+      <a href="{{ url_for('checkout') }}" class="btn btn-dark ms-2">Checkout</a>
+    </div>
+  </div>
+</form>
+{% endif %}
+{% endblock %}

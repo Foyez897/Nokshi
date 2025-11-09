@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% block content %}
+<h3>Admin Dashboard</h3>
+<div class="mb-3">
+  <a href="{{ url_for('admin_products') }}" class="btn btn-outline-dark btn-sm">Manage Products</a>
+  <a href="{{ url_for('admin_logout') }}" class="btn btn-outline-secondary btn-sm">Logout</a>
+</div>
+
+<div class="row mb-4">
+  <div class="col-md-3">
+    <div class="card p-3">
+      <div class="small text-muted">Products</div>
+      <div class="fs-4">{{ total_products }}</div>
+    </div>
+  </div>
+  <div class="col-md-3">
+    <div class="card p-3">
+      <div class="small text-muted">Orders</div>
+      <div class="fs-4">{{ total_orders }}</div>
+    </div>
+  </div>
+  <div class="col-md-3">
+    <div class="card p-3">
+      <div class="small text-muted">Pending Orders</div>
+      <div class="fs-4">{{ pending_orders }}</div>
+    </div>
+  </div>
+</div>
+
+<h5>Recent Orders</h5>
+<table class="table table-sm">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Customer</th>
+      <th>Total</th>
+      <th>Status</th>
+      <th>Created</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for o in recent_orders %}
+      <tr>
+        <td>{{ o.id }}</td>
+        <td>{{ o.customer_name }}</td>
+        <td>£{{ '%.2f'|format(o.total_price) }}</td>
+        <td>{{ o.status }}</td>
+        <td>{{ o.created_at }}</td>
+      </tr>
+    {% else %}
+      <tr><td colspan="5">No orders yet.</td></tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

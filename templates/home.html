@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="row align-items-center mb-5">
+  <div class="col-md-6">
+    <h1 class="fw-bold">Nokshi</h1>
+    <p class="lead">
+      Handpicked traditional outfits with a modern touch. Sarees, salwar kameez and occasion wear, shipped with care.
+    </p>
+    <a href="{{ url_for('products_view') }}" class="btn btn-dark btn-lg">Shop Now</a>
+  </div>
+  <div class="col-md-6 text-center">
+    <div class="hero-placeholder rounded-4">
+      Add a beautiful banner photo here.
+    </div>
+  </div>
+</div>
+
+<h3 class="mb-3">Featured Pieces</h3>
+<div class="row">
+  {% for p in products %}
+    <div class="col-6 col-md-3 mb-4">
+      <div class="card h-100 border-0 shadow-sm">
+        <img src="{{ p.image_url or url_for('static', filename='images/placeholder.jpg') }}"
+             class="card-img-top" alt="{{ p.name }}">
+        <div class="card-body">
+          <h6 class="card-title">{{ p.name }}</h6>
+          <p class="fw-bold mb-1">£{{ '%.2f'|format(p.price) }}</p>
+          <a href="{{ url_for('product_detail', slug=p.slug) }}" class="stretched-link small">View details</a>
+        </div>
+      </div>
+    </div>
+  {% else %}
+    <p>No products yet.</p>
+  {% endfor %}
+</div>
+{% endblock %}

@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="row">
+  <div class="col-md-5">
+    <img src="{{ product.image_url or url_for('static', filename='images/placeholder.jpg') }}"
+         class="img-fluid rounded-3" alt="{{ product.name }}">
+  </div>
+  <div class="col-md-7">
+    <h2>{{ product.name }}</h2>
+    <p class="text-muted">{{ product.category }}</p>
+    <h4 class="fw-bold">£{{ '%.2f'|format(product.price) }}</h4>
+    <p>{{ product.description }}</p>
+
+    <form method="post" action="{{ url_for('add_to_cart', product_id=product.id) }}" class="mt-3">
+      {% if product.sizes %}
+        <label class="form-label">Size</label>
+        <select name="size" class="form-select" required>
+          <option value="">Choose size</option>
+          {% for s in product.sizes.split(',') %}
+            <option value="{{ s|trim }}">{{ s|trim }}</option>
+          {% endfor %}
+        </select>
+      {% endif %}
+      <label class="form-label mt-2">Quantity</label>
+      <input type="number" name="qty" value="1" min="1" class="form-control" style="max-width:120px;">
+      <button class="btn btn-dark mt-3" type="submit">Add to Cart</button>
+    </form>
+  </div>
+</div>
+{% endblock %}

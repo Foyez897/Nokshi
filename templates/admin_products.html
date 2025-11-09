@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+{% block content %}
+<h3>Manage Products</h3>
+
+<div class="mb-3">
+  <a href="{{ url_for('admin_dashboard') }}" class="btn btn-outline-secondary btn-sm">Back to Dashboard</a>
+  <a href="{{ url_for('admin_logout') }}" class="btn btn-outline-secondary btn-sm">Logout</a>
+</div>
+
+<div class="card mb-4">
+  <div class="card-body">
+    <h5 class="card-title">Add New Product</h5>
+    <form method="post">
+      <div class="row g-2">
+        <div class="col-md-3">
+          <input type="text" name="name" class="form-control" placeholder="Name" required>
+        </div>
+        <div class="col-md-2">
+          <input type="text" name="category" class="form-control" placeholder="Category" required>
+        </div>
+        <div class="col-md-2">
+          <input type="number" name="price" step="0.01" class="form-control" placeholder="Price" required>
+        </div>
+        <div class="col-md-3">
+          <input type="text" name="image_url" class="form-control" placeholder="Image URL (or leave blank)">
+        </div>
+        <div class="col-md-2">
+          <input type="text" name="sizes" class="form-control" placeholder="Sizes e.g. S,M,L">
+        </div>
+      </div>
+      <div class="row g-2 mt-2">
+        <div class="col-md-10">
+          <textarea name="description" class="form-control" rows="2" placeholder="Description"></textarea>
+        </div>
+        <div class="col-md-2 d-flex align-items-center">
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" name="is_featured" id="is_featured">
+            <label class="form-check-label" for="is_featured">Featured</label>
+          </div>
+        </div>
+      </div>
+      <div class="mt-2">
+        <button type="submit" class="btn btn-dark btn-sm">Add Product</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<h5>All Products</h5>
+<table class="table table-sm align-middle">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Name</th>
+      <th>Category</th>
+      <th>Price</th>
+      <th>Featured</th>
+      <th>In stock</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for p in products %}
+      <tr>
+        <td>{{ p.id }}</td>
+        <td>{{ p.name }}</td>
+        <td>{{ p.category }}</td>
+        <td>£{{ '%.2f'|format(p.price) }}</td>
+        <td>{{ "Yes" if p.is_featured else "No" }}</td>
+        <td>{{ "Yes" if p.in_stock else "No" }}</td>
+        <td>
+          <a href="{{ url_for('admin_toggle_stock', product_id=p.id) }}" class="btn btn-outline-secondary btn-sm">
+            Toggle Stock
+          </a>
+        </td>
+      </tr>
+    {% else %}
+      <tr><td colspan="7">No products yet.</td></tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}
